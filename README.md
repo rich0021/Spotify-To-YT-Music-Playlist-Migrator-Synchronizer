@@ -1,1 +1,1 @@
-my litte web app that migrate and synchronize spotify to youtube music
+my little web app that migrate and synchronize spotify to youtube music
