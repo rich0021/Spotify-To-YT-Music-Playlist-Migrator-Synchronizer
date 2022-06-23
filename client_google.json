@@ -1,0 +1,12 @@
+{
+  "web": {
+    "client_id": "424733555163-vb2qlg8hl9u0d7tu33fea5qaoja3n9mt.apps.googleusercontent.com",
+    "project_id": "spotify-to-yt-music",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": ["http://localhost/spyt"],
+    "javascript_origins": ["http://localhost"]
+  }
+}

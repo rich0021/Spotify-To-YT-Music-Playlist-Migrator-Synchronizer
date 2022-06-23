@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify To YT Playlist Migrator & Syncronizer</title>
+  </head>
+  <body>
+    <div class="spotify">
+      <label for="spotify_client_id">Spotify Client ID : </label>
+      <input type="text" id="spotify_client_id" /><br />
+      <label for="spotify_client_secret">Spotify Client Secret : </label>
+      <input type="text" id="spotify_client_secret" />
+    </div>
+    <div class="yt">
+      <label for="yt_client_id">YT Client ID : </label>
+      <input type="text" id="yt_client_id" />
+      <button id="gbuttonlog">Sign-In Google</button>
+      <br />
+      <label for="playlist_name">Playlist Name : </label>
+      <input type="text" id="playlist_name" />
+    </div>
+    <button id="gbuttonmigrate">Migrate Playlist</button>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script type="module" src="Main.js"></script>
+  </body>
+</html>
