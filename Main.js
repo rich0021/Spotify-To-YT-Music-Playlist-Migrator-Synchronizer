@@ -24,14 +24,11 @@ let sync_data = {};
 let redirect_url = "http://localhost/spyt/";
 
 async function migrate() {
-  sendAuthorizedApiRequest()
-    .then(function () {
-      spotifyListPlaylist()
-        .then((e) => {
-          spotifyListPlaylistItems();
-        })
-        .catch((e) => console.log(e));
-      /* searchYoutube("bang!- ajr").then(function () {
+  await sendAuthorizedApiRequest();
+  await spotifyListPlaylist();
+  await spotifyListPlaylistItems();
+
+  /* searchYoutube("bang!- ajr").then(function () {
         insertPlaylist({
           title: migrate_data.playlist_name,
           desc: migrate_data.playlist_desc,
@@ -44,11 +41,11 @@ async function migrate() {
           })
           .then(() => (migrate_data = {}))
           .catch((e) => console.log(e));
-      }); */
-    })
+      }) */
+  /* })
     .catch(function () {
       alert("You Must Login First Or Playlist Name Empty");
-    });
+    }); */
 }
 
 function spotifyAuth() {
@@ -71,44 +68,41 @@ function spotifySetToken(code) {
   isAuthSpotify = true;
 }
 
-function spotifyListPlaylist() {
-  $.ajax({
-    type: "get",
-    url: "https://api.spotify.com/v1/me/playlists",
-    dataType: "json",
+async function spotifyListPlaylist() {
+  let response = await fetch("https://api.spotify.com/v1/me/playlists", {
     headers: {
       Authorization: `Bearer ${sp_access_token}`,
-    },
-    success: function (response) {
-      response.items.forEach((value) => {
-        if (value.name.toLowerCase() == playlist_name.value.toLowerCase()) {
-          migrate_data.playlist_name = value.name;
-          migrate_data.playlist_desc = value.description;
-          migrate_data.playlist_status = value.collaborative
-            ? "public"
-            : "private";
-          migrate_data.spotify_playlist_id = value.id;
-          return new Promise((success) => success());
-        }
-      });
     },
   });
+
+  let data = await response.json();
+
+  data.items.forEach((value) => {
+    if (value.name.toLowerCase() == playlist_name.value.toLowerCase()) {
+      migrate_data.playlist_name = value.name;
+      migrate_data.playlist_desc = value.description;
+      migrate_data.playlist_status = value.collaborative ? "public" : "private";
+      migrate_data.spotify_playlist_id = value.id;
+    }
+  });
+
+  console.log(migrate_data.spotify_playlist_id);
 }
 
-function spotifyListPlaylistItems() {
-  $.ajax({
-    type: "get",
-    url: `https://api.spotify.com/v1/playlists/${migrate_data.spotify_playlist_id}/tracks`,
-    dataType: "json",
-    headers: {
-      Authorization: `Bearer ${sp_access_token}`,
-    },
-    success: function (response) {
-      console.log(response);
-      response.items.forEach((value) => {
-        console.log(value);
-      });
-    },
+async function spotifyListPlaylistItems() {
+  let response = await fetch(
+    `https://api.spotify.com/v1/playlists/${migrate_data.spotify_playlist_id}/tracks`,
+    {
+      headers: {
+        Authorization: `Bearer ${sp_access_token}`,
+      },
+    }
+  );
+
+  let data = await response.json();
+
+  data.items.forEach((value) => {
+    console.log(value);
   });
 }
 
@@ -216,7 +210,7 @@ function listPlaylist() {
 
 function sendAuthorizedApiRequest() {
   return new Promise((sucess, failed) => {
-    if (isAuthGoogle && isAuthSpotify && playlist_name.value.length > 0) {
+    if (isAuthGoogle && isAuthSpotify && playlist_name.value) {
       return sucess();
     } else {
       return failed();
