@@ -17,6 +17,7 @@ let sp_access_token;
 let google_oauth_client = document.getElementById("google_oauth_client");
 
 let migrate_data = {
+  spotifyMusicData: [],
   ytVideoId: [],
 };
 let sync_data = {};
@@ -28,24 +29,22 @@ async function migrate() {
   await spotifyListPlaylist();
   await spotifyListPlaylistItems();
 
-  /* searchYoutube("bang!- ajr").then(function () {
-        insertPlaylist({
-          title: migrate_data.playlist_name,
-          desc: migrate_data.playlist_desc,
-          status: migrate_data.playlist_status,
-        })
-          .then(function () {
-            migrate_data.ytVideoId.forEach(function (value, index) {
-              insertPlaylistItem(migrate_data.yt_playlist_id, value);
-            });
-          })
-          .then(() => (migrate_data = {}))
-          .catch((e) => console.log(e));
-      }) */
-  /* })
-    .catch(function () {
-      alert("You Must Login First Or Playlist Name Empty");
-    }); */
+  /* await insertPlaylist({
+    title: migrate_data.playlist_name,
+    desc: migrate_data.playlist_desc,
+    status: migrate_data.playlist_status,
+  });
+
+  migrate_data.spotifyMusicData.forEach((value) => {
+    searchYoutube(`${value.name} ${value.artist}`)
+      .then(function (e) {
+        insertPlaylistItem(
+          migrate_data.yt_playlist_id,
+          e.result.items[0].id.videoId
+        );
+      })
+      .catch((e) => console.log(e));
+  }); */
 }
 
 function spotifyAuth() {
@@ -85,8 +84,6 @@ async function spotifyListPlaylist() {
       migrate_data.spotify_playlist_id = value.id;
     }
   });
-
-  console.log(migrate_data.spotify_playlist_id);
 }
 
 async function spotifyListPlaylistItems() {
@@ -101,9 +98,14 @@ async function spotifyListPlaylistItems() {
 
   let data = await response.json();
 
-  data.items.forEach((value) => {
-    console.log(value);
-  });
+  console.log(data);
+
+  /* data.items.forEach((value) => {
+    migrate_data.spotifyMusicData.push({
+      name: value.track.name,
+      artist: value.artist[0].name,
+    });
+  }); */
 }
 
 function initClient() {
@@ -133,7 +135,7 @@ function searchYoutube(q) {
     })
     .then((e) => {
       console.log(e.result);
-      migrate_data.ytVideoId.push(e.result.items[0].id.videoId);
+      return e;
     })
     .catch(function (e) {
       console.log(e);
