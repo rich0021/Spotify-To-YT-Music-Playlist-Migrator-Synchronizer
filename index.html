@@ -12,17 +12,26 @@
       <input type="text" id="spotify_client_id" /><br />
       <label for="spotify_client_secret">Spotify Client Secret : </label>
       <input type="text" id="spotify_client_secret" />
+      <button id="spbuttonlog">Sign-in Spotify</button>
     </div>
+
     <div class="yt">
-      <label for="yt_client_id">YT Client ID : </label>
-      <input type="text" id="yt_client_id" />
+      <label for="google_oauth_client">YT Client ID : </label>
+      <input type="text" id="google_oauth_client" />
       <button id="gbuttonlog">Sign-In Google</button>
       <br />
       <label for="playlist_name">Playlist Name : </label>
       <input type="text" id="playlist_name" />
     </div>
+
     <button id="gbuttonmigrate">Migrate Playlist</button>
+    <button id="gbuttonmigrate" onclick="checksptoken()">cehck token</button>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://apis.google.com/js/api.js"></script>
-    <script type="module" src="Main.js"></script>
+    <script src="Main.js"></script>
   </body>
 </html>
