@@ -56,7 +56,7 @@ function spotifyAuth() {
     )}&scope=${encodeURIComponent(
       "playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private"
     )}`;
-    window.popup = window.open(url, "Spotify Login", "width=800,height=600");
+    window.open(url, "Spotify Login", "width=800,height=600");
   } else {
     alert("Spotify Client ID Empty");
   }
